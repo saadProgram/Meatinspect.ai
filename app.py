@@ -4,11 +4,7 @@ import numpy as np
 from tensorflow.keras.utils import img_to_array
 from PIL import Image
 import os
-import gdown
-
-url = 'https://drive.google.com/file/d/1ZlGOfquMb0BUR-goNIvm4L9MBIHSIBGB/view?usp=drive_link'
-output = 'meat_quality_analyzer_model.h5'
-gdown.download(url, output, quiet=False)
+from tensorflow.keras.models import load_model
 
 # -----------------------------#
 #        Custom CSS Styling    #
@@ -152,12 +148,8 @@ if page == "Home":
         #       Model Prediction        #
         # -----------------------------#
         # Load the trained DenseNet model
-        @st.cache_resource
-        def load_model():
-            model = tf.keras.models.load_model('meat_quality_analyzer_model.h5')
-            return model
-        
-        model = load_model()
+        model_path = os.path.join(os.getcwd(), "your_model.h5")
+        model = load_model(model_path)
 
         # Define class names
         class_names = ['Fresh', 'Half Fresh', 'Spoiled']
