@@ -148,7 +148,7 @@ if page == "Home":
         #       Model Prediction        #
         # -----------------------------#
         # Load the trained DenseNet model
-        model_path = os.path.join(os.getcwd(), "your_model.h5")
+        model_path = os.path.join(os.getcwd(), "meat_quality_analyzer_model.h5")
         model = load_model(model_path)
 
         # Define class names
