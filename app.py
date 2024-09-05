@@ -4,6 +4,11 @@ import numpy as np
 from tensorflow.keras.utils import img_to_array
 from PIL import Image
 import os
+import gdown
+
+url = 'https://drive.google.com/file/d/1ZlGOfquMb0BUR-goNIvm4L9MBIHSIBGB/view?usp=drive_link'
+output = 'meat_quality_analyzer_model.h5'
+gdown.download(url, output, quiet=False)
 
 # -----------------------------#
 #        Custom CSS Styling    #
