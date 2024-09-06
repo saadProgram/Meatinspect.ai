@@ -58,14 +58,14 @@ st.markdown(
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 150px;
+        width: 130px;
     }
 
     /* Image container */
     .uploaded-image {
         border: 2px solid #AA3C3B;
         padding: 10px;
-        margin-top: 20px;
+        margin-top: 10px;
         border-radius: 10px;
         width: 50%;  /* Reduce the size of the uploaded image */
     }
