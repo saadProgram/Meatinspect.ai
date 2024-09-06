@@ -127,6 +127,16 @@ client = Groq(
     api_key="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",
 )
 
+import streamlit as st
+import tensorflow as tf
+import numpy as np
+from tensorflow.keras.utils import img_to_array
+from PIL import Image
+import os
+from fpdf import FPDF
+from io import BytesIO
+import markdown  # Markdown library
+
 # Function to generate the inspection report in PDF format
 def generate_inspection_report(predicted_class, report_text):
     pdf = FPDF()
@@ -149,9 +159,10 @@ def generate_inspection_report(predicted_class, report_text):
     
     return pdf_buffer
 
+# Function to format the report text using markdown library
 def format_report_text(report_text):
-    # Convert markdown text into HTML formatted text using custom styling
-    formatted_text = report_text.replace("**", "<strong>").replace("*", "<i>").replace("\n", "<br>")
+    # Convert markdown text to HTML
+    formatted_text = markdown.markdown(report_text)
     return formatted_text
 
 def create_llm_report(predicted_class):
@@ -194,6 +205,7 @@ def create_llm_report(predicted_class):
 
     report_text = chat_completion.choices[0].message.content
     return format_report_text(report_text)
+
 
 
 # -----------------------------#
