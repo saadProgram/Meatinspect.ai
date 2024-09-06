@@ -50,4 +50,4 @@ wrapt==1.16.0
 fpdf
 groq
 torch
-tensorflow
+transformers
