@@ -179,7 +179,7 @@ if page == "Home":
     with col1:
         # Display the logo
         if os.path.exists(logo_path):
-            st.image(logo_path, use_column_width=True, width=150, caption="", output_format="PNG")
+            st.image(logo_path, use_column_width=True, width=130, caption="", output_format="PNG")
         else:
             st.warning("Logo image not found. Please check the path.")
 
