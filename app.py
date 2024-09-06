@@ -130,9 +130,9 @@ if page == "Home":
 
     if uploaded_file is not None:
         # Display the uploaded image with custom styling
-        image_url = Image.open(uploaded_file)
+        image = Image.open(uploaded_file)
         st.markdown(
-            f'<div style="text-align: center;"><img src="{image_url}" width="300"></div>',
+            f'<div style="text-align: center;"><img src="{image}" width="300"></div>',
             unsafe_allow_html=True
         )
         st.markdown(
