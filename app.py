@@ -61,15 +61,6 @@ st.markdown(
         width: 130px;
     }
 
-    /* Image container */
-    .uploaded-image {
-        border: 2px solid #AA3C3B;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 10px;
-        width: 50%;  /* Reduce the size of the uploaded image */
-    }
-
     /* Prediction text */
     .prediction {
         font-size: 24px;
@@ -80,7 +71,7 @@ st.markdown(
 
     /* Adjusting the padding for the top container */
     .top-container {
-        width: 100%;
+        width: 90%;
         display: flex;
         align-items: center;
         padding: 20px 0;
