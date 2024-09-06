@@ -15,7 +15,11 @@ st.markdown(
     """
     <style>
 
-
+    /* Remove padding and margin at the top */
+    .main {
+        padding-top: 0px !important;
+    }
+    
     /* Sidebar styling */
     .sidebar .sidebar-content {
         background-color: #f9f9f9;  /* Same as main content background */
