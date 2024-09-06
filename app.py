@@ -242,7 +242,7 @@ if page == "Home":
         # Center the report button
         st.markdown('<div class="center-button">', unsafe_allow_html=True)
 
-        if st.button("Create Inspection Report"):
+        if st.button("Generate Inspection Report"):
             report_text = create_llm_report(predicted_class)
             report_buffer = generate_inspection_report(predicted_class, report_text)
             
