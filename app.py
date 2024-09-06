@@ -126,8 +126,7 @@ if os.path.exists(logo_path):
 else:
     st.sidebar.warning("Logo image not found. Please check the path.")
 
-st.sidebar.title("Options")
-page = st.sidebar.radio("Go to", ["Home", "About", "Contact Us"])
+page = st.sidebar.radio("Go to", ["Home", "About"])
 
 # -----------------------------#
 #         LLM work             #
@@ -267,15 +266,4 @@ elif page == "About":
     st.markdown('<h1 class="main-title">About Us</h1>', unsafe_allow_html=True)
     st.image(team_path, use_column_width=True, width=150, caption="", output_format="JPG")
 
-# -----------------------------#
-#         Contact Us Page       #
-# -----------------------------#
-elif page == "Contact Us":
-    st.markdown('<h1 class="main-title">Contact Us</h1>', unsafe_allow_html=True)
-    st.markdown(
-        """
-        <p class="custom-text">
-        We'd love to hear from you! Whether you have a question about the project, need assistance, or just want to say hi, feel free to reach out.
-        </p>
-        """,
-        unsafe_allow_html=True)
+
