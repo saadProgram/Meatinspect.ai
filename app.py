@@ -149,8 +149,13 @@ def generate_inspection_report(predicted_class, report_text):
     
     return pdf_buffer
 
-# Function to create the report content using Groq LLM
+def format_report_text(report_text):
+    # Convert markdown text into HTML formatted text using custom styling
+    formatted_text = report_text.replace("**", "<strong>").replace("*", "<i>").replace("\n", "<br>")
+    return formatted_text
+
 def create_llm_report(predicted_class):
+    # Prompt content with conditional branches for different classifications
     if predicted_class == "Fresh":
         prompt_content = (
             f"The meat is classified as {predicted_class}.\n"
@@ -178,6 +183,7 @@ def create_llm_report(predicted_class):
             "3. A conclusion stating that the meat is not safe for consumption."
         )
 
+    # Get LLM completion from Groq or other LLM service
     chat_completion = client.chat.completions.create(
         messages=[
             {
@@ -189,7 +195,7 @@ def create_llm_report(predicted_class):
     )
 
     report_text = chat_completion.choices[0].message.content
-    return report_text
+    return format_report_text(report_text)
 
 
 # -----------------------------#
