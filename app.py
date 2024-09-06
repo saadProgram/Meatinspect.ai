@@ -148,13 +148,9 @@ if page == "Home":
         #       Model Prediction        #
         # -----------------------------#
         # Load the trained DenseNet model
-        print("Current working directory:", os.getcwd())
-        print("Files in directory:", os.listdir(os.getcwd()))
+        model_path = "/workspaces/Meatinspect.ai/meat_quality_analyzer_model.h5"
 
-        # Define model path
-        model_path = os.path.join(os.getcwd(), "meat_quality_analyzer_model.h5")
-
-        # Check if the file exists before loading
+        # Check if the model file exists before loading
         if os.path.exists(model_path):
             print("Model file found, loading...")
             model = load_model(model_path)
