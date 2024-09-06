@@ -154,11 +154,11 @@ def create_llm_report(predicted_class):
     prompt_content = (
         f"The meat is classified as {predicted_class}.\n"
         "Generate a detailed inspection report including:\n"
-        "1. Recommended actions\n"
-        "2. Possible shelf-life\n"
-        "3. Guidelines on handling spoiled meat (if applicable)\n"
-        "4. Whether the meat is eatable or not."
-        "Just include these above 4 mentioned things don't add any extra Info"
+        "1. Safety assessments and identified risks\n"
+        "2. Preservation tips for future handling\n"
+        "3. Recommended actions and shelf-life\n"
+        "4. Guidelines on handling spoiled meat (if applicable)\n"
+        "5. Whether the meat is edible or not."
     )
 
     chat_completion = client.chat.completions.create(
@@ -173,6 +173,7 @@ def create_llm_report(predicted_class):
 
     report_text = chat_completion.choices[0].message.content
     return report_text
+
 
 # -----------------------------#
 #           Home Page           #
