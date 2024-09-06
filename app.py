@@ -4,8 +4,6 @@ import numpy as np
 from tensorflow.keras.utils import img_to_array
 from PIL import Image
 import os
-from tensorflow.keras.models import load_model
-
 # -----------------------------#
 #        Custom CSS Styling    #
 # -----------------------------#
@@ -155,7 +153,6 @@ if page == "Home":
         
         model = load_model()
 
-
         # Define class names
         class_names = ['Fresh', 'Half Fresh', 'Spoiled']
 
@@ -169,16 +166,12 @@ if page == "Home":
 # -----------------------------#
 #           About Page          #
 # -----------------------------#
+
+
 elif page == "About":
+    team_path = os.path.join('image', "team.JPG")
     st.markdown('<h1 class="main-title">About Us</h1>', unsafe_allow_html=True)
-    st.markdown(
-        """
-        <p class="custom-text">
-        The **Meat Quality Analyzer** is a machine learning-based application designed to help users assess the freshness of meat through image analysis. 
-        By uploading a photo of the meat, the model predicts whether the meat is **Fresh**, **Half Fresh**, or **Spoiled**.
-        </p>
-        """,
-        unsafe_allow_html=True)
+    st.image(team_path, use_column_width=True, width=150, caption="", output_format="JPG")
 
 # -----------------------------#
 #         Contact Us Page       #
@@ -189,20 +182,6 @@ elif page == "Contact Us":
         """
         <p class="custom-text">
         We'd love to hear from you! Whether you have a question about the project, need assistance, or just want to say hi, feel free to reach out.
-        </p>
-        <p class="custom-text">
-        ### Contact Information:
-        - **Email**: [team@example.com](mailto:team@example.com)
-        - **Phone**: +1 (234) 567-8901
-        - **Address**:
-            ```
-            1234 Meat Street
-            Food City, FC 56789
-            ```
-        ### Follow Us:
-        - [LinkedIn](#)
-        - [Twitter](#)
-        - [GitHub](#)
         </p>
         """,
         unsafe_allow_html=True)
