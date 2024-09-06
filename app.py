@@ -14,7 +14,10 @@ from io import BytesIO
 st.markdown(
     """
     <style>
-
+    /* Adjust the main title margin */
+    .main-title {
+        margin-top: 0px !important;  /* Set the top margin to 0 to remove extra space */
+    }
     
     /* Sidebar styling */
     .sidebar .sidebar-content {
