@@ -130,8 +130,11 @@ if page == "Home":
 
     if uploaded_file is not None:
         # Display the uploaded image with custom styling
-        image = Image.open(uploaded_file)
-        st.image(image, use_column_width=False, width=300, output_format="PNG")
+        image_url = Image.open(uploaded_file)
+        st.markdown(
+            f'<div style="text-align: center;"><img src="{image_url}" width="300"></div>',
+            unsafe_allow_html=True
+        )
         st.markdown(
             '<p class="custom-text" style="text-align: center;">Uploaded Image.</p>',
             unsafe_allow_html=True)
