@@ -16,7 +16,7 @@ st.markdown(
     <style>
 
     .main, .block-container {
-    padding-top: 5 !important;
+    padding-top: 2 !important;
     }
 
     /* Sidebar styling */
