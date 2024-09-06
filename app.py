@@ -174,8 +174,10 @@ def format_report_text(report_text):
 
 
 def create_llm_report(predicted_class):
+
+    prompt_content = "Don't include product details and inspector details."
     if predicted_class == "Fresh":
-        prompt_content = (
+        prompt_content += (
             f"The meat is classified as {predicted_class}.\n"
             "Generate a detailed inspection report including:\n"
             "1. Safety assessments (temperature, cross-contamination, and pathogen risks)\n"
@@ -184,7 +186,7 @@ def create_llm_report(predicted_class):
             "4. A conclusion regarding meat safety for consumption."
         )
     elif predicted_class == "Half Fresh":
-        prompt_content = (
+        prompt_content += (
             f"The meat is classified as {predicted_class}.\n"
             "Generate a detailed inspection report including:\n"
             "1. Safety assessments (risks and temperature control)\n"
@@ -193,7 +195,7 @@ def create_llm_report(predicted_class):
             "4. Guidelines on whether the meat is consumable."
         )
     elif predicted_class == "Spoiled":
-        prompt_content = (
+        prompt_content += (
             f"The meat is classified as {predicted_class}.\n"
             "Generate a detailed inspection report including:\n"
             "1. Safety risks and potential pathogens\n"
