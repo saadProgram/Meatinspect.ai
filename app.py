@@ -155,27 +155,27 @@ def create_llm_report(predicted_class):
         prompt_content = (
             f"The meat is classified as {predicted_class}.\n"
             "Generate a detailed inspection report including:\n"
-            "1. Safety assessments (temperature, cross-contamination risk, and pathogens)\n"
+            "1. Safety assessments (temperature, cross-contamination, and pathogen risks)\n"
             "2. Preservation tips for maintaining freshness\n"
-            "3. Recommended actions for handling and shelf-life\n"
-            "4. Whether the meat is safe for consumption."
+            "3. Recommended handling actions and shelf-life\n"
+            "4. A conclusion regarding meat safety for consumption."
         )
     elif predicted_class == "Half Fresh":
         prompt_content = (
             f"The meat is classified as {predicted_class}.\n"
             "Generate a detailed inspection report including:\n"
-            "1. Safety assessments (temperature, cross-contamination risk, and potential risks)\n"
-            "2. Tips for extending the shelf life and preventing spoilage\n"
-            "3. Recommendations for immediate action, consumption timeline, and storage\n"
+            "1. Safety assessments (risks and temperature control)\n"
+            "2. Tips to extend shelf life and slow down spoilage\n"
+            "3. Recommended actions and immediate consumption guidelines\n"
             "4. Guidelines on whether the meat is consumable."
         )
     elif predicted_class == "Spoiled":
         prompt_content = (
             f"The meat is classified as {predicted_class}.\n"
             "Generate a detailed inspection report including:\n"
-            "1. Safety assessments (risks and potential pathogens)\n"
-            "2. Guidelines on handling spoiled meat\n"
-            "3. Whether the meat is no longer safe for consumption and should be discarded."
+            "1. Safety risks and potential pathogens\n"
+            "2. Guidelines on how to handle and dispose of the spoiled meat\n"
+            "3. A conclusion stating that the meat is not safe for consumption."
         )
 
     chat_completion = client.chat.completions.create(
