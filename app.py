@@ -131,8 +131,18 @@ if page == "Home":
     if uploaded_file is not None:
         # Display the uploaded image with custom styling
         image = Image.open(uploaded_file)
+        st.image(image, width=300)
+        
+        # Use custom CSS to center the image
         st.markdown(
-            f'<div style="text-align: center;"><img src="{image}" width="300"></div>',
+            """
+            <style>
+            [data-testid="stImage"] > div {
+                display: flex;
+                justify-content: center;
+            }
+            </style>
+            """,
             unsafe_allow_html=True
         )
         st.markdown(
