@@ -117,7 +117,8 @@ if os.path.exists(logo_path):
 else:
     st.sidebar.warning("Logo image not found. Please check the path.")
 
-page = st.sidebar.radio("Go to", ["Home", "About"])
+# Update page navigation with new tabs
+page = st.sidebar.radio("Go to", ["Home", "User History", "Settings", "Help", "About"])
 
 # -----------------------------#
 #         LLM work             #
