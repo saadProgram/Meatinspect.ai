@@ -207,8 +207,6 @@ if page == "Home":
     if uploaded_file is not None:
         # Display the uploaded image with custom styling
         image = Image.open(uploaded_file)
-        st.image(image, caption='Uploaded Image', use_column_width=False, width=300, output_format="PNG")
-
         # Preprocess the image
         img = image.resize((128, 128))
         x = img_to_array(img)
