@@ -190,11 +190,11 @@ if page == "Home":
 
     with col2:
         # Display the main title
-        st.markdown('<h1 class="main-title">Meat Quality Analyzer</h1>', unsafe_allow_html=True)
+        st.markdown('<h1 class="main-title">Meat Quality Detection</h1>', unsafe_allow_html=True)
 
     # Add a brief description below the header
     st.markdown(
-        '<p class="custom-text" style="font-size:18px;">Upload an image of meat, and the model will predict whether it is Fresh, Half Fresh, or Spoiled.</p>',
+        '<p class="custom-text" style="font-size:18px;">Upload a meat image to receive an accurate, AI-driven classification. Instantly determine if the meat is Fresh, Half Fresh, or Spoiled and receive actionable insights on safety and handling.</p>',
         unsafe_allow_html=True)
 
     # File uploader
