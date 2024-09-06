@@ -7,6 +7,8 @@ import os
 from fpdf import FPDF
 from groq import Groq
 from io import BytesIO
+from bs4 import BeautifulSoup
+import markdown
 
 # -----------------------------#
 #        Custom CSS Styling    #
@@ -159,11 +161,17 @@ def generate_inspection_report(predicted_class, report_text):
     
     return pdf_buffer
 
-# Function to format the report text using markdown library
+
 def format_report_text(report_text):
-    # Convert markdown text to HTML
-    formatted_text = markdown.markdown(report_text)
-    return formatted_text
+    # Convert markdown to HTML
+    html_text = markdown.markdown(report_text)
+    
+    # Strip out HTML tags using BeautifulSoup to return plain text
+    soup = BeautifulSoup(html_text, "html.parser")
+    plain_text = soup.get_text()
+    
+    return plain_text
+
 
 def create_llm_report(predicted_class):
     if predicted_class == "Fresh":
