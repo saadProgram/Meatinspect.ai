@@ -61,7 +61,6 @@ st.markdown(
         display: block;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 0px !important;
         width: 130px;
     }
 
@@ -114,7 +113,7 @@ st.markdown(
 # Display the logo on the sidebar
 logo_path = os.path.join('image', "main.png")
 if os.path.exists(logo_path):
-    st.sidebar.image(logo_path, use_column_width=True, width=150, caption="", output_format="PNG")
+    st.sidebar.image(logo_path, use_column_width=True,margin-top: 0px, width=130, caption="", output_format="PNG")
 else:
     st.sidebar.warning("Logo image not found. Please check the path.")
 
