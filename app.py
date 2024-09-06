@@ -148,8 +148,18 @@ if page == "Home":
         #       Model Prediction        #
         # -----------------------------#
         # Load the trained DenseNet model
+        print("Current working directory:", os.getcwd())
+        print("Files in directory:", os.listdir(os.getcwd()))
+
+        # Define model path
         model_path = os.path.join(os.getcwd(), "meat_quality_analyzer_model.h5")
-        model = load_model(model_path)
+
+        # Check if the file exists before loading
+        if os.path.exists(model_path):
+            print("Model file found, loading...")
+            model = load_model(model_path)
+        else:
+            print(f"Error: Model file not found at {model_path}")
 
         # Define class names
         class_names = ['Fresh', 'Half Fresh', 'Spoiled']
