@@ -4,6 +4,9 @@ import numpy as np
 from tensorflow.keras.utils import img_to_array
 from PIL import Image
 import os
+from fpdf import FPDF
+from groq import Groq
+from io import BytesIO
 # -----------------------------#
 #        Custom CSS Styling    #
 # -----------------------------#
@@ -102,6 +105,63 @@ else:
 st.sidebar.title("Options")
 page = st.sidebar.radio("Go to", ["Home", "About", "Contact Us"])
 
+
+
+# -----------------------------#
+#         LLM work             #
+# -----------------------------#
+# Groq API setup
+client = Groq(
+    api_key="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",
+)
+
+# Function to generate the inspection report in PDF format
+def generate_inspection_report(predicted_class, report_text):
+    pdf = FPDF()
+    pdf.add_page()
+
+    # Title
+    pdf.set_font("Arial", size=16)
+    pdf.cell(200, 10, txt="Meat Inspection Report", ln=True, align="C")
+
+    # Classification Result
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, txt=f"Classification: {predicted_class}", ln=True)
+
+    # Report Details
+    pdf.multi_cell(0, 10, report_text)
+
+    # Save the PDF to a string buffer instead of a file
+    pdf_output = pdf.output(dest='S').encode('latin1')  # 'S' returns a string, encoded to match PDF format
+    pdf_buffer = BytesIO(pdf_output)  # Convert the string to BytesIO object for download
+    
+    return pdf_buffer
+
+# Function to create the report content using Groq LLM
+def create_llm_report(predicted_class):
+    prompt_content = (
+        f"The meat is classified as {predicted_class}.\n"
+        "Generate a detailed inspection report including:\n"
+        "1. Recommended actions\n"
+        "2. Possible shelf-life\n"
+        "3. Guidelines on handling spoiled meat (if applicable)\n"
+        "4. Whether the meat is eatable or not."
+    )
+
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt_content,
+            }
+        ],
+        model="llama3-8b-8192",
+    )
+
+    report_text = chat_completion.choices[0].message.content
+    return report_text
+
+
 # -----------------------------#
 #           Home Page           #
 # -----------------------------#
@@ -132,6 +192,9 @@ if page == "Home":
         # Display the uploaded image with custom styling
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded Image', use_column_width=False, width=300, output_format="PNG")
+        st.markdown(
+            '<p class="custom-text" style="text-align: center;">Uploaded Image.</p>',
+            unsafe_allow_html=True)
 
         # Preprocess the image
         img = image.resize((128, 128))
@@ -160,6 +223,18 @@ if page == "Home":
         # Display prediction
         st.markdown(f'<p class="prediction">Prediction: <strong>{predicted_class}</strong></p>', unsafe_allow_html=True)
 
+        if st.button("Create Inspection Report"):
+            report_text = create_llm_report(predicted_class)
+            report_buffer = generate_inspection_report(predicted_class, report_text)
+            
+            # Provide download button with the in-memory PDF buffer
+            st.download_button(
+                label="Download Report",
+                data=report_buffer,
+                file_name="inspection_report.pdf",
+                mime="application/pdf"
+            )
+
 # -----------------------------#
 #           About Page          #
 # -----------------------------#
@@ -182,3 +257,4 @@ elif page == "Contact Us":
         </p>
         """,
         unsafe_allow_html=True)
+
