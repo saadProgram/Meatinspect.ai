@@ -192,9 +192,6 @@ if page == "Home":
         # Display the uploaded image with custom styling
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded Image', use_column_width=False, width=300, output_format="PNG")
-        st.markdown(
-            '<p class="custom-text" style="text-align: center;">Uploaded Image.</p>',
-            unsafe_allow_html=True)
 
         # Preprocess the image
         img = image.resize((128, 128))
