@@ -148,14 +148,24 @@ if page == "Home":
         #       Model Prediction        #
         # -----------------------------#
         # Load the trained DenseNet model
-        model_path = "/workspaces/Meatinspect.ai/meat_quality_analyzer_model.h5"
-
-        # Check if the model file exists before loading
-        if os.path.exists(model_path):
-            print("Model file found, loading...")
-            model = load_model(model_path)
+        # Check if running on Streamlit Codespace or Local GitHub environment
+        if os.path.exists("/workspaces/Meatinspect.ai/meat_quality_analyzer_model.h5"):
+            # Codespace environment (model uploaded manually)
+            model_path = "/workspaces/Meatinspect.ai/meat_quality_analyzer_model.h5"
         else:
-            print(f"Error: Model file not found at {model_path}")
+            # Local GitHub environment (model not available in GitHub)
+            # You can choose to fetch from an external source or handle the absence
+            print("Model file not found in local environment. Consider downloading from an external source.")
+            # Example: You could download from Google Drive, AWS S3, etc.
+            model_path = None
+        
+        # Load the model if the path is valid
+        if model_path and os.path.exists(model_path):
+            model = load_model(model_path)
+            print("Model loaded successfully.")
+        else:
+            print("Error: Model file not found.")
+
 
         # Define class names
         class_names = ['Fresh', 'Half Fresh', 'Spoiled']
