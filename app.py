@@ -7,6 +7,7 @@ import os
 from fpdf import FPDF
 from groq import Groq
 from io import BytesIO
+
 # -----------------------------#
 #        Custom CSS Styling    #
 # -----------------------------#
@@ -26,7 +27,7 @@ st.markdown(
 
     /* Sidebar button styling */
     .stButton>button {
-        background-color: #008080;
+        background-color: #AA3C3B;
         color: white;
         border: none;
         padding: 10px 20px;
@@ -87,6 +88,29 @@ st.markdown(
         align-items: center;
         padding: 20px 0;
     }
+
+    /* Center the buttons */
+    .center-button {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    /* Button styling */
+    .center-button button {
+        background-color: #AA3C3B;
+        color: white;
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+    }
+
+    /* Button hover */
+    .center-button button:hover {
+        background-color: #FF6347;
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -105,12 +129,9 @@ else:
 st.sidebar.title("Options")
 page = st.sidebar.radio("Go to", ["Home", "About", "Contact Us"])
 
-
-
 # -----------------------------#
 #         LLM work             #
 # -----------------------------#
-# Groq API setup
 client = Groq(
     api_key="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",
 )
@@ -161,7 +182,6 @@ def create_llm_report(predicted_class):
     report_text = chat_completion.choices[0].message.content
     return report_text
 
-
 # -----------------------------#
 #           Home Page           #
 # -----------------------------#
@@ -202,7 +222,6 @@ if page == "Home":
         # -----------------------------#
         #       Model Prediction        #
         # -----------------------------#
-        # Load the trained DenseNet model
         @st.cache_resource
         def load_model():
             model = tf.keras.models.load_model('meat_quality_analyzer_model.h5')
@@ -220,6 +239,9 @@ if page == "Home":
         # Display prediction
         st.markdown(f'<p class="prediction">Prediction: <strong>{predicted_class}</strong></p>', unsafe_allow_html=True)
 
+        # Center the report button
+        st.markdown('<div class="center-button">', unsafe_allow_html=True)
+
         if st.button("Create Inspection Report"):
             report_text = create_llm_report(predicted_class)
             report_buffer = generate_inspection_report(predicted_class, report_text)
@@ -231,6 +253,9 @@ if page == "Home":
                 file_name="inspection_report.pdf",
                 mime="application/pdf"
             )
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
 
 # -----------------------------#
 #           About Page          #
@@ -254,4 +279,3 @@ elif page == "Contact Us":
         </p>
         """,
         unsafe_allow_html=True)
-
