@@ -14,11 +14,6 @@ from io import BytesIO
 st.markdown(
     """
     <style>
-    /* Adjust padding around the entire page */
-    .css-18e3th9 {
-        padding-top: 0px !important;
-    }
-    
     /* Sidebar styling */
     .sidebar .sidebar-content {
         background-color: #f9f9f9;  /* Same as main content background */
