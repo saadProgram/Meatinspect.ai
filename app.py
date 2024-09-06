@@ -14,10 +14,7 @@ from io import BytesIO
 st.markdown(
     """
     <style>
-    /* Background color */
-    .stApp {
-        background-color: #f9f9f9;  /* Light background color */
-    }
+
 
     /* Sidebar styling */
     .sidebar .sidebar-content {
