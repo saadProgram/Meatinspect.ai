@@ -5,8 +5,17 @@ from tensorflow.keras.utils import img_to_array
 from PIL import Image
 import os
 from fpdf import FPDF
-from groq import Groq
 from io import BytesIO
+import torch
+from transformers import Blip2Processor, Blip2ForConditionalGeneration
+from groq import Groq
+
+# -----------------------------#
+#         BLIP-2 Initialization
+# -----------------------------#
+device = "cuda" if torch.cuda.is_available() else "cpu"
+processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
+model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b").to(device)
 
 # -----------------------------#
 #        Custom CSS Styling    #
@@ -16,13 +25,13 @@ st.markdown(
     <style>
     /* Background color */
     .stApp {
-        background-color: #f9f9f9;  /* Light background color */
+        background-color: #f9f9f9;
     }
 
     /* Sidebar styling */
     .sidebar .sidebar-content {
-        background-color: #f9f9f9;  /* Same as main content background */
-        color: #AA3C3B;  /* Text color in sidebar */
+        background-color: #f9f9f9;
+        color: #AA3C3B;
     }
 
     /* Sidebar button styling */
@@ -34,11 +43,6 @@ st.markdown(
         font-size: 16px;
         border-radius: 5px;
         cursor: pointer;
-    }
-
-    /* Sidebar button on hover */
-    .stButton>button:hover {
-        background-color: #006666;
     }
 
     /* Main title */
@@ -53,63 +57,7 @@ st.markdown(
 
     /* General text */
     .custom-text {
-        color: #AA3C3B;  /* Custom text color */
-    }
-
-    /* Logo */
-    .logo {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 150px;
-    }
-
-    /* Image container */
-    .uploaded-image {
-        border: 2px solid #AA3C3B;
-        padding: 10px;
-        margin-top: 20px;
-        border-radius: 10px;
-        width: 50%;  /* Reduce the size of the uploaded image */
-    }
-
-    /* Prediction text */
-    .prediction {
-        font-size: 24px;
-        color: #FF6347;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    /* Adjusting the padding for the top container */
-    .top-container {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding: 20px 0;
-    }
-
-    /* Center the buttons */
-    .center-button {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    /* Button styling */
-    .center-button button {
-        background-color: #AA3C3B;
-        color: white;
-        padding: 10px 20px;
-        font-size: 18px;
-        border-radius: 5px;
-        cursor: pointer;
-        border: none;
-    }
-
-    /* Button hover */
-    .center-button button:hover {
-        background-color: #FF6347;
+        color: #AA3C3B;
     }
     </style>
     """,
@@ -127,14 +75,23 @@ else:
     st.sidebar.warning("Logo image not found. Please check the path.")
 
 st.sidebar.title("Options")
-page = st.sidebar.radio("Go to", ["Home", "About", "Contact Us"])
+page = st.sidebar.radio("Go to", ["Home", "About Us", "Contact Us"])
 
 # -----------------------------#
 #         LLM work             #
 # -----------------------------#
-client = Groq(
-    api_key="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",
-)
+client = Groq(api_key="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")
+
+# Function to generate image caption using BLIP-2
+def generate_caption(image):
+    try:
+        inputs = processor(images=image, return_tensors="pt").to(device)
+        output = model.generate(**inputs)
+        caption = processor.decode(output[0], skip_special_tokens=True)
+        return caption
+    except Exception as e:
+        st.error(f"Error generating caption: {str(e)}")
+        return None
 
 # Function to generate the inspection report in PDF format
 def generate_inspection_report(predicted_class, report_text):
@@ -158,28 +115,17 @@ def generate_inspection_report(predicted_class, report_text):
     
     return pdf_buffer
 
-# Function to create the report content using Groq LLM
-def create_llm_report(predicted_class):
-    prompt_content = (
+# Function to create the report content using BLIP-2 for image captioning
+def create_llm_report(predicted_class, image_caption):
+    report_text = (
         f"The meat is classified as {predicted_class}.\n"
+        f"Image Caption: {image_caption}\n"
         "Generate a detailed inspection report including:\n"
         "1. Recommended actions\n"
         "2. Possible shelf-life\n"
         "3. Guidelines on handling spoiled meat (if applicable)\n"
         "4. Whether the meat is eatable or not."
     )
-
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": prompt_content,
-            }
-        ],
-        model="llama3-8b-8192",
-    )
-
-    report_text = chat_completion.choices[0].message.content
     return report_text
 
 # -----------------------------#
@@ -190,17 +136,14 @@ if page == "Home":
     col1, col2 = st.columns([1, 3])  # Adjust the ratio as needed
 
     with col1:
-        # Display the logo
         if os.path.exists(logo_path):
             st.image(logo_path, use_column_width=True, width=150, caption="", output_format="PNG")
         else:
             st.warning("Logo image not found. Please check the path.")
 
     with col2:
-        # Display the main title
         st.markdown('<h1 class="main-title">Meat Quality Analyzer</h1>', unsafe_allow_html=True)
 
-    # Add a brief description below the header
     st.markdown(
         '<p class="custom-text" style="font-size:18px;">Upload an image of meat, and the model will predict whether it is Fresh, Half Fresh, or Spoiled.</p>',
         unsafe_allow_html=True)
@@ -213,15 +156,13 @@ if page == "Home":
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded Image', use_column_width=False, width=300, output_format="PNG")
 
-        # Preprocess the image
+        # Preprocess the image for the model
         img = image.resize((128, 128))
         x = img_to_array(img)
         x /= 255
         x = np.expand_dims(x, axis=0)
         images = np.vstack([x])
-        # -----------------------------#
-        #       Model Prediction        #
-        # -----------------------------#
+
         @st.cache_resource
         def load_model():
             model = tf.keras.models.load_model('meat_quality_analyzer_model.h5')
@@ -233,49 +174,52 @@ if page == "Home":
         class_names = ['Fresh', 'Half Fresh', 'Spoiled']
 
         classes = model.predict(images, batch_size=10)
-        print(classes[0])
         predicted_class = class_names[np.argmax(classes[0])]
 
         # Display prediction
         st.markdown(f'<p class="prediction">Prediction: <strong>{predicted_class}</strong></p>', unsafe_allow_html=True)
 
-        # Center the report button
-        st.markdown('<div class="center-button">', unsafe_allow_html=True)
+        # Generate caption using BLIP-2
+        image_caption = generate_caption(image)
+        if image_caption:
+            st.markdown(f"**Image Caption:** {image_caption}")
 
-        if st.button("Create Inspection Report"):
-            report_text = create_llm_report(predicted_class)
-            report_buffer = generate_inspection_report(predicted_class, report_text)
-            
-            # Provide download button with the in-memory PDF buffer
-            st.download_button(
-                label="Download Report",
-                data=report_buffer,
-                file_name="inspection_report.pdf",
-                mime="application/pdf"
-            )
+            if st.button("Create Inspection Report"):
+                report_text = create_llm_report(predicted_class, image_caption)
+                report_buffer = generate_inspection_report(predicted_class, report_text)
 
-        st.markdown('</div>', unsafe_allow_html=True)
-
+                # Provide download button with the in-memory PDF buffer
+                st.download_button(
+                    label="Download Report",
+                    data=report_buffer,
+                    file_name="inspection_report.pdf",
+                    mime="application/pdf"
+                )
 
 # -----------------------------#
-#           About Page          #
+#           About Us Page       #
 # -----------------------------#
-
-
-elif page == "About":
-    team_path = os.path.join('image', "team.JPG")
+elif page == "About Us":
     st.markdown('<h1 class="main-title">About Us</h1>', unsafe_allow_html=True)
-    st.image(team_path, use_column_width=True, width=150, caption="", output_format="JPG")
+    st.markdown(
+        """
+        <p class="custom-text" style="font-size:18px;">
+        Welcome to the Meat Quality Analyzer. Our mission is to help users analyze and assess the quality of meat using advanced machine learning models.
+        Upload an image, and let our model predict the freshness of your meat and generate a report.
+        </p>
+        """
+    )
+    st.image('image/team.JPG', use_column_width=True)
 
 # -----------------------------#
-#         Contact Us Page       #
+#        Contact Us Page        #
 # -----------------------------#
 elif page == "Contact Us":
     st.markdown('<h1 class="main-title">Contact Us</h1>', unsafe_allow_html=True)
     st.markdown(
         """
-        <p class="custom-text">
-        We'd love to hear from you! Whether you have a question about the project, need assistance, or just want to say hi, feel free to reach out.
+        <p class="custom-text" style="font-size:18px;">
+        We'd love to hear from you! Whether you have a question about the project, need assistance, or just want to say hi, feel free to reach out at: <strong>info@meatqualityanalyzer.com</strong>
         </p>
-        """,
-        unsafe_allow_html=True)
+        """
+    )
