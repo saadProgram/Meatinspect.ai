@@ -257,3 +257,68 @@ elif page == "About":
     st.image(team_path, use_column_width=True, width=150, caption="", output_format="JPG")
 
 
+
+# -----------------------------#
+#         Sidebar Navigation    #
+# -----------------------------#
+# Display the logo on the sidebar
+logo_path = os.path.join('image', "main.png")
+if os.path.exists(logo_path):
+    st.sidebar.image(logo_path, use_column_width=True, width=130, caption="", output_format="PNG")
+else:
+    st.sidebar.warning("Logo image not found. Please check the path.")
+
+# Update page navigation with new tabs
+page = st.sidebar.radio("Go to", ["Home", "User History", "Settings", "Help", "About"])
+
+# -----------------------------#
+#           Home Page           #
+# -----------------------------#
+if page == "Home":
+    # Create the Home page content as in the original code (no changes needed here)
+
+# -----------------------------#
+#        User History Tab       #
+# -----------------------------#
+elif page == "User History":
+    st.markdown('<h1 class="main-title">Inspection History</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="custom-text">View your past inspections and download previous reports.</p>', unsafe_allow_html=True)
+    
+    # Mockup: Display a list of previous reports
+    history = ["Report 1: Fresh", "Report 2: Spoiled", "Report 3: Half Fresh"]
+    for item in history:
+        st.write(f"- {item}")
+
+# -----------------------------#
+#       Settings Tab            #
+# -----------------------------#
+elif page == "Settings":
+    st.markdown('<h1 class="main-title">Settings</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="custom-text">Adjust your preferences for notifications and thresholds.</p>', unsafe_allow_html=True)
+    
+    # Mockup: Settings form for notification and freshness threshold
+    notifications = st.checkbox("Enable Email Notifications", value=True)
+    freshness_threshold = st.slider("Freshness Threshold (1-100)", min_value=1, max_value=100, value=50)
+
+    st.write(f"Notifications Enabled: {notifications}")
+    st.write(f"Freshness Threshold: {freshness_threshold}")
+
+# -----------------------------#
+#       Help Tab                #
+# -----------------------------#
+elif page == "Help":
+    st.markdown('<h1 class="main-title">Help & Support</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="custom-text">Get assistance on using the MeatInspect.AI platform.</p>', unsafe_allow_html=True)
+    
+    st.write("For any queries or issues, please contact our support team at support@meatinspect.ai")
+
+# -----------------------------#
+#         About Page            #
+# -----------------------------#
+elif page == "About":
+    team_path = os.path.join('image', "team.JPG")
+    st.markdown('<h1 class="main-title">About Us</h1>', unsafe_allow_html=True)
+    st.image(team_path, use_column_width=True, width=150, caption="", output_format="JPG")
+
+
+
