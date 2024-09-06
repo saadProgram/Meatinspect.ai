@@ -134,7 +134,7 @@ if page == "Home":
         st.markdown(
             f"""
             <div style="display: flex; justify-content: center;">
-                <img src="{image_path}" width="300" />
+                <img src="{image}" width="300" />
             </div>
             """,
             unsafe_allow_html=True
