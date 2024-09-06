@@ -14,6 +14,11 @@ from io import BytesIO
 st.markdown(
     """
     <style>
+
+    .main, .block-container {
+    padding-top: 0 !important;
+    }
+
     /* Sidebar styling */
     .sidebar .sidebar-content {
         background-color: #f9f9f9;  /* Same as main content background */
