@@ -152,6 +152,7 @@ def create_llm_report(predicted_class):
         "2. Possible shelf-life\n"
         "3. Guidelines on handling spoiled meat (if applicable)\n"
         "4. Whether the meat is eatable or not."
+        "Just include these above 4 mentioned things don't add any extra Info"
     )
 
     chat_completion = client.chat.completions.create(
