@@ -201,6 +201,7 @@ def create_llm_report(predicted_class):
             "3. A conclusion stating that the meat is not safe for consumption."
         )
 
+
     chat_completion = client.chat.completions.create(
         messages=[
             {
