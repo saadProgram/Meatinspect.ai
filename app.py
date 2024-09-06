@@ -150,7 +150,7 @@ if page == "Home":
         # Load the trained DenseNet model
         # Check if running on Streamlit Codespace or Local GitHub environment
         
-        print("\n\n\n\nFiles in current directory:", os.listdir("/workspaces/Meatinspect.ai/ \n\n\n\n"))
+        print("\n\n\n\nFiles in current directory:", os.listdir("/workspaces/Meatinspect.ai/"))
 
 
         if os.path.exists("/workspaces/Meatinspect.ai/meat_quality_analyzer_model.h5"):
