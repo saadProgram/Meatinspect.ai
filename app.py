@@ -61,6 +61,7 @@ st.markdown(
         display: block;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 0px
         width: 130px;
     }
 
