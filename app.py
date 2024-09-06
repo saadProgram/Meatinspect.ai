@@ -257,26 +257,6 @@ elif page == "About":
     st.image(team_path, use_column_width=True, width=150, caption="", output_format="JPG")
 
 
-
-# -----------------------------#
-#         Sidebar Navigation    #
-# -----------------------------#
-# Display the logo on the sidebar
-logo_path = os.path.join('image', "main.png")
-if os.path.exists(logo_path):
-    st.sidebar.image(logo_path, use_column_width=True, width=130, caption="", output_format="PNG")
-else:
-    st.sidebar.warning("Logo image not found. Please check the path.")
-
-# Update page navigation with new tabs
-page = st.sidebar.radio("Go to", ["Home", "User History", "Settings", "Help", "About"])
-
-# -----------------------------#
-#           Home Page           #
-# -----------------------------#
-if page == "Home":
-    # Create the Home page content as in the original code (no changes needed here)
-
 # -----------------------------#
 #        User History Tab       #
 # -----------------------------#
@@ -311,14 +291,3 @@ elif page == "Help":
     st.markdown('<p class="custom-text">Get assistance on using the MeatInspect.AI platform.</p>', unsafe_allow_html=True)
     
     st.write("For any queries or issues, please contact our support team at support@meatinspect.ai")
-
-# -----------------------------#
-#         About Page            #
-# -----------------------------#
-elif page == "About":
-    team_path = os.path.join('image', "team.JPG")
-    st.markdown('<h1 class="main-title">About Us</h1>', unsafe_allow_html=True)
-    st.image(team_path, use_column_width=True, width=150, caption="", output_format="JPG")
-
-
-
