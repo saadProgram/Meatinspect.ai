@@ -151,15 +151,32 @@ def generate_inspection_report(predicted_class, report_text):
 
 # Function to create the report content using Groq LLM
 def create_llm_report(predicted_class):
-    prompt_content = (
-        f"The meat is classified as {predicted_class}.\n"
-        "Generate a detailed inspection report including:\n"
-        "1. Safety assessments and identified risks\n"
-        "2. Preservation tips for future handling\n"
-        "3. Recommended actions and shelf-life\n"
-        "4. Guidelines on handling spoiled meat (if applicable)\n"
-        "5. Whether the meat is edible or not."
-    )
+    if predicted_class == "Fresh":
+        prompt_content = (
+            f"The meat is classified as {predicted_class}.\n"
+            "Generate a detailed inspection report including:\n"
+            "1. Safety assessments (temperature, cross-contamination risk, and pathogens)\n"
+            "2. Preservation tips for maintaining freshness\n"
+            "3. Recommended actions for handling and shelf-life\n"
+            "4. Whether the meat is safe for consumption."
+        )
+    elif predicted_class == "Half Fresh":
+        prompt_content = (
+            f"The meat is classified as {predicted_class}.\n"
+            "Generate a detailed inspection report including:\n"
+            "1. Safety assessments (temperature, cross-contamination risk, and potential risks)\n"
+            "2. Tips for extending the shelf life and preventing spoilage\n"
+            "3. Recommendations for immediate action, consumption timeline, and storage\n"
+            "4. Guidelines on whether the meat is consumable."
+        )
+    elif predicted_class == "Spoiled":
+        prompt_content = (
+            f"The meat is classified as {predicted_class}.\n"
+            "Generate a detailed inspection report including:\n"
+            "1. Safety assessments (risks and potential pathogens)\n"
+            "2. Guidelines on handling spoiled meat\n"
+            "3. Whether the meat is no longer safe for consumption and should be discarded."
+        )
 
     chat_completion = client.chat.completions.create(
         messages=[
