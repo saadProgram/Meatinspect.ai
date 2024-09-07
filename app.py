@@ -175,7 +175,7 @@ def format_report_text(report_text):
 
 def create_llm_report(predicted_class):
 
-    prompt_content = "Don't include product details and inspector details."
+    prompt_content = "Don't include product details and inspector details. dont add any thing in square brackets '[]' just write totally an ai reports"
     if predicted_class == "Fresh":
         prompt_content += (
             f"The meat is classified as {predicted_class}.\n"
