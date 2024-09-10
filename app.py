@@ -7,7 +7,6 @@ import os
 from fpdf import FPDF
 from groq import Groq
 from io import BytesIO
-from bs4 import BeautifulSoup
 import markdown
 
 # -----------------------------#
@@ -19,11 +18,12 @@ st.markdown(
 
     .main, .block-container {
     padding-top: 10px !important;
+    background-color: #FFFFFF;  /* Change main content background to white */
     }
 
     /* Sidebar styling */
     .sidebar .sidebar-content {
-        background-color: #f9f9f9;  /* Same as main content background */
+        background-color: #FFFFFF;  /* Change sidebar background to white */
         color: #AA3C3B;  /* Text color in sidebar */
     }
 
@@ -108,6 +108,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 # -----------------------------#
 #         Sidebar Navigation    #
