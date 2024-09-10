@@ -16,15 +16,14 @@ from bs4 import BeautifulSoup
 st.markdown(
     """
     <style>
-
-    .main, .block-container {
-    padding-top: 10px !important;
-    background-color: #FFFFFF;  /* Change main content background to white */
+    /* Background color */
+    .stApp {
+        background-color: #f9f9f9;  /* Light background color */
     }
 
     /* Sidebar styling */
     .sidebar .sidebar-content {
-        background-color: #FFFFFF;  /* Change sidebar background to white */
+        background-color: #f9f9f9;  /* Same as main content background */
         color: #AA3C3B;  /* Text color in sidebar */
     }
 
@@ -64,7 +63,16 @@ st.markdown(
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 130px;
+        width: 150px;
+    }
+
+    /* Image container */
+    .uploaded-image {
+        border: 2px solid #AA3C3B;
+        padding: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+        width: 50%;  /* Reduce the size of the uploaded image */
     }
 
     /* Prediction text */
@@ -77,7 +85,7 @@ st.markdown(
 
     /* Adjusting the padding for the top container */
     .top-container {
-        width: 90%;
+        width: 100%;
         display: flex;
         align-items: center;
         padding: 20px 0;
@@ -109,7 +117,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 
 # -----------------------------#
 #         Sidebar Navigation    #
