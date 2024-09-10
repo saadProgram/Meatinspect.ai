@@ -8,6 +8,7 @@ from fpdf import FPDF
 from groq import Groq
 from io import BytesIO
 import markdown
+from bs4 import BeautifulSoup
 
 # -----------------------------#
 #        Custom CSS Styling    #
